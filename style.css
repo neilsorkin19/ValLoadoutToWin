@@ -1,0 +1,43 @@
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.attackers {
+    background: rgba(241, 47, 47, 0.2);
+    padding: 2px;
+}
+
+.defenders {
+    background-color: rgba(111, 111, 213, 0.2);
+    padding: 2px;
+}
+/* add gap between round score and attackers or defenders */
+.sides_elems {
+    margin-left: 20px;
+}
+
+td  {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+td > * {
+    margin: 2px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+body {
+    font-family: sans-serif;
+    width: 80%;
+}
+
+body > * {
+    margin: 10px;
+}
+
+

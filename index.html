@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Valorant Loadout Calculator</title>
+</head>
+<body>
+<h2>Valorant Win Probability Calculator - CMSC320 Final Project</h2>
+<h4>Created by <a href="https://www.neilsorkin.com/">Neil Sorkin</a> - Undergraduate Student at the University of
+    Maryland in <a
+            href="https://cmsc320.github.io/">CMSC320 (Introduction to Data Science)</a></h4>
+<select id="select_map">
+    <option value="none" selected disabled hidden>Select a map...</option>
+</select>
+
+<table id="loadouts">
+</table>
+
+<button id="calculate" onclick="calculate()">
+    Calculate
+</button>
+
+<p>Currently, the calculation outputs out a random number, but in the real version of the app, I will use Tensorflow to
+    train a model for the real expected win probabilities, and use this model's inference to generate the
+    probabilities.</p>
+<p>
+    The dimensionality of this problem is very high, so I will probably need hundreds of thousands of games to train an
+    accurate model. Additionally, I need to be able to retrain the data when there is a new patch as the guns and agents
+    can change. So, I need persistent access to the Valorant API.
+</p>
+<p>
+    In the future, I may add other variables, like ultimate points / status, ability purchases, the ability to input KDA
+    in the match for each player (an 0/20/0 Jett is not going to change the outcome very much with their Bladestorm), and
+    ping. As this calculator stands, it is more useful from an esports caster point of view where you know the loadouts
+    of both teams and can numerically evaluate the "smartness" of a buy. To a player in the game, you don't know a lot
+    of the information required, but perhaps I could make the calculator guess what the
+    enemy team will buy based on their bank and how optimal each loadout is for that team.
+</p>
+
+</body>
+<script src="index.js"></script>
+
+</html>
