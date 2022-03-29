@@ -2,8 +2,7 @@ const maps = ["Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Split"
 
 // 18 agents as of 3/8/22
 const agents = ["Astra", "Breach", "Brimstone", "Chamber", "Cypher", "Jett", "KAYO", "Killjoy", "Neon", "Omen", "Phoenix", "Raze", "Reyna", "Sage", "Skye", "Sova", "Viper", "Yoru"]
-const sidearms = ["Classic", "Shorty", "Frenzy", "Ghost", "Sheriff", "None"] // none for knife players
-const main_weapons = ["None", "Stinger", "Spectre", "Bucky", "Judge", "Bulldog", "Guardian", "Phantom", "Vandal", "Marshal", "Operator", "Ares", "Odin"]
+const weapons = ["Ares", "Bucky", "Bulldog", "Classic", "Frenzy", "Ghost", "Guardian", "Judge", "Marshal", "Melee", "Odin", "Operator", "Phantom", "Sheriff", "Shorty", "Spectre", "Stinger", "Vandal"]
 
 
 const body = document.body
@@ -15,7 +14,10 @@ function tableCreate() {
     const top_row = tbl.insertRow()
     // set attacker header
     const attacker_cell = document.createElement("div")
-    const attacker_text = document.createTextNode("Attackers")
+    const attacker_hover_box = document.createElement("span")
+    attacker_hover_box.title = "Red is the team that started on attack."
+    attacker_hover_box.className += "tooltip"
+    const attacker_text = document.createTextNode("Red")
     const attacker_rounds = document.createElement("input")
     const attacker_prob_text = document.createElement("div")
     attacker_prob_text.id = "attacker_prob"
@@ -25,14 +27,18 @@ function tableCreate() {
     attacker_rounds.setAttribute("placeholder", "Round wins")
     attacker_rounds.className += "sides_elems"
     attacker_cell.className += "attackers"
-    attacker_cell.appendChild(attacker_text)
+    attacker_hover_box.appendChild(attacker_text)
+    attacker_cell.appendChild(attacker_hover_box)
     attacker_cell.appendChild(attacker_rounds)
     attacker_cell.appendChild(attacker_prob_text)
     top_row.insertCell().appendChild(attacker_cell)
 
     // set defender header
     const defender_cell = document.createElement("div")
-    const defender_text = document.createTextNode("Defenders")
+    const defender_hover_box = document.createElement("span")
+    defender_hover_box.title = "Blue is the team that started on defense."
+    defender_hover_box.className += "tooltip"
+    const defender_text = document.createTextNode("Blue")
     const defender_rounds = document.createElement("input")
     const defender_prob_text = document.createElement("div")
     defender_prob_text.id = "defender_prob"
@@ -42,7 +48,8 @@ function tableCreate() {
     defender_rounds.setAttribute("placeholder", "Round wins")
     defender_rounds.className += "sides_elems"
     defender_cell.className += "defenders"
-    defender_cell.appendChild(defender_text)
+    defender_hover_box.appendChild(defender_text)
+    defender_cell.appendChild(defender_hover_box)
     defender_cell.appendChild(defender_rounds)
     defender_cell.appendChild(defender_prob_text)
     top_row.insertCell().appendChild(defender_cell)
@@ -74,27 +81,16 @@ function tableCreate() {
             )
             td.appendChild(select_agent);
 
-            // select your sidearm
-            const select_sidearm = document.createElement("select")
-            sidearms.forEach(sidearm => {
-                    const el = document.createElement("option")
-                    el.textContent = sidearm
-                    el.value = sidearm
-                    select_sidearm.appendChild(el)
-                }
-            )
-            td.appendChild(select_sidearm);
-
             // select your main_weapon
-            const select_main_weapon = document.createElement("select")
-            main_weapons.forEach(main_weapon => {
+            const select_weapon = document.createElement("select")
+            weapons.forEach(weapon => {
                     const el = document.createElement("option")
-                    el.textContent = main_weapon
-                    el.value = main_weapon
-                    select_main_weapon.appendChild(el)
+                    el.textContent = weapon
+                    el.value = weapon
+                    select_weapon.appendChild(el)
                 }
             )
-            td.appendChild(select_main_weapon);
+            td.appendChild(select_weapon);
 
             // add shield
             const shield = document.createElement("input")
@@ -111,6 +107,24 @@ function tableCreate() {
             bank.setAttribute("max", "9000")
             bank.setAttribute("placeholder", "Bank")
             td.appendChild(bank)
+
+            // add round spend
+            const spent = document.createElement("input")
+            spent.setAttribute("type", "number")
+            spent.setAttribute("min", "0")
+            spent.setAttribute("max", "9000")
+            spent.setAttribute("placeholder", "Spent")
+            td.appendChild(spent)
+
+            const kda = ["Kills", "Deaths", "Assists"]
+            for (const metric of kda) {
+                const field = document.createElement("input")
+                field.setAttribute("type", "number")
+                field.setAttribute("min", "0")
+                field.setAttribute("max", "99")
+                field.setAttribute("placeholder", metric)
+                td.appendChild(field)
+            }
         }
     }
 }
