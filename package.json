@@ -1,0 +1,7 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "dependencies": {
+    "@tensorflow/tfjs-core": "^3.15.0"
+  }
+}

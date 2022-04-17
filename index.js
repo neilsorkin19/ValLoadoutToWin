@@ -1,3 +1,5 @@
+import * as tf from '@tensorflow/tfjs-core';
+
 const maps = ["Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Split"]
 
 // 18 agents as of 3/8/22
@@ -157,3 +159,10 @@ maps.forEach(map => {
 )
 
 tableCreate();
+
+async function loadModel() {
+    let model = await tf.loadLayersModel("tfjs_model/model.json");
+    console.log("model loaded")
+
+}
+loadModel();
