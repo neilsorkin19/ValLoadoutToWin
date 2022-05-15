@@ -1,5 +1,3 @@
-import * as tf from '@tensorflow/tfjs-core';
-
 const maps = ["Ascent", "Bind", "Breeze", "Fracture", "Haven", "Icebox", "Split"]
 
 // 18 agents as of 3/8/22
@@ -94,19 +92,36 @@ function tableCreate() {
             )
             td.appendChild(select_weapon);
 
+            // loadout value, weapon, shield, remaining, spent
+
+            // add bank
+            const loadout_value = document.createElement("input")
+            loadout_value.setAttribute("type", "number")
+            loadout_value.setAttribute("min", "0")
+            loadout_value.setAttribute("max", "9000")
+            loadout_value.setAttribute("step", "50")
+            loadout_value.setAttribute("placeholder", "Loadout Value")
+            loadout_value.setAttribute("style", "width: 100px")
+            td.appendChild(loadout_value)
+
             // add shield
             const shield = document.createElement("input")
             shield.setAttribute("type", "number")
             shield.setAttribute("min", "0")
             shield.setAttribute("max", "50")
+            shield.setAttribute("step", "25")
             shield.setAttribute("placeholder", "Shield")
             td.appendChild(shield)
+
+            // better table spacing
+            td.appendChild(document.createElement("br"));
 
             // add bank
             const bank = document.createElement("input")
             bank.setAttribute("type", "number")
             bank.setAttribute("min", "0")
             bank.setAttribute("max", "9000")
+            bank.setAttribute("step", "50")
             bank.setAttribute("placeholder", "Bank")
             td.appendChild(bank)
 
@@ -115,10 +130,11 @@ function tableCreate() {
             spent.setAttribute("type", "number")
             spent.setAttribute("min", "0")
             spent.setAttribute("max", "9000")
+            spent.setAttribute("step", "50")
             spent.setAttribute("placeholder", "Spent")
             td.appendChild(spent)
 
-            const kda = ["Kills", "Deaths", "Assists"]
+            const kda = ["K", "D", "A"]
             for (const metric of kda) {
                 const field = document.createElement("input")
                 field.setAttribute("type", "number")
@@ -163,6 +179,28 @@ tableCreate();
 async function loadModel() {
     let model = await tf.loadLayersModel("tfjs_model/model.json");
     console.log("model loaded")
+    const in_val = tf.linspace(0.1, 0.1, 441).reshape([-1, 441]);
+    const output = model.predict(in_val)
+    const outputData = output.dataSync();
+    console.log(outputData)
+}
+
+loadModel();
+
+function get_inputs() {
+    // red_loadout, blue_loadout, red_wins / 13, blue_wins / 13, round_num_to_atk_def(r["roundNum"]), overtime, map_vector
+    // red_loadout[0] -> [loadoutValue, armor, remaining, spent, weapon_vec, agent_vec, kda]
 
 }
-loadModel();
+
+function round_num_to_atk_def(round_num) {
+    // Returns 0 if red is attacking, 1 if red is defending.
+// zero-indexed rounds
+    if (round_num < 12) {
+        return 0
+    } else if (12 <= round_num < 24) {
+        return 1
+    } else if (24 <= round_num) {
+        return round_num % 2
+    }
+}
